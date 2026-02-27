@@ -14,41 +14,47 @@ const useProductStore = create((set, get) => ({
 
   // Fetch product list
   fetchProducts: async (params = {}) => {
-    const { limit, skip, search, selectedCategory } = {
-      ...get(),
-      ...params,
-    };
+  const state = get();
 
-    try {
-      set({ loading: true, error: null });
+  const {
+    limit,
+    skip,
+    search,
+    selectedCategory,
+  } = { ...state, ...params };
 
-      let url = "";
+  try {
+    set({ loading: true, error: null });
 
-      if (search) {
-        url = `https://dummyjson.com/products/search?q=${search}`;
-      } else if (selectedCategory) {
-        url = `https://dummyjson.com/products/category/${selectedCategory}`;
-      } else {
-        url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
-      }
+    let url = "";
 
-      const res = await fetch(url);
-      const data = await res.json();
-
-      set({
-        products: data.products,
-        total: data.total,
-        limit,
-        skip,
-        search,
-        selectedCategory,
-        loading: false,
-      });
-
-    } catch (error) {
-      set({ error: "Failed to fetch products", loading: false });
+    if (search) {
+      url = `https://dummyjson.com/products/search?q=${search}&limit=${limit}&skip=${skip}`;
+    } 
+    else if (selectedCategory) {
+      url = `https://dummyjson.com/products/category/${selectedCategory}?limit=${limit}&skip=${skip}`;
+    } 
+    else {
+      url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
     }
-  },
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    set({
+      products: data.products,
+      total: data.total,
+      limit,
+      skip,
+      search,
+      selectedCategory,
+      loading: false,
+    });
+
+  } catch (error) {
+    set({ error: "Failed to fetch products", loading: false });
+  }
+},
 
   // Fetch single product
   fetchSingleProduct: async (id) => {

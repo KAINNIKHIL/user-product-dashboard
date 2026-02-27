@@ -74,7 +74,7 @@ export default function UsersPage() {
 
               <TableBody>
                 {users.map((user) => (
-                  <TableRow key={user.id} hover style={{ cursor: "pointer" }} onClick={() => router.push(`/users/${user.id}`)} >
+                  <TableRow key={user.id} hover style={{ cursor: "pointer" }} onClick={() => router.push(`/dashboard/users/${user.id}`)} >
                     <TableCell>
                       {user.firstName} {user.lastName}
                     </TableCell>

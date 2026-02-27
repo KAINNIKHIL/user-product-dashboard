@@ -39,7 +39,7 @@ export default function SingleUserPage() {
     <div style={{ padding: 20 }}>
       <Button
         variant="outlined"
-        onClick={() => router.push("/users")}
+        onClick={() => router.push("/dashboard/users")}
         style={{ marginBottom: 20 }}
       >
         Back to Users
