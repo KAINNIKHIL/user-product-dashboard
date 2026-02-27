@@ -1,36 +1,278 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project Objective
 
-## Getting Started
+This project evaluates practical frontend skills including:
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Authentication handling
+- REST API integration
+- Global state management
+- Responsive UI design
+- Performance optimization
+- Clean architecture & documentation
+All backend data is fetched from:
+```
+https://dummyjson.com/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+###  Tech Stack
+- Technology	Purpose
+- Next.js	Framework (App Router)
+- Material UI (MUI)	UI Components & Responsive Layout
+- Zustand	Global State Management
+- NextAuth	Authentication handling
+- DummyJSON API	Public REST API
+- Axios / Fetch	API calls
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+###  Features Overview
+##  1. Authentication
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+API Used
+```
+POST https://dummyjson.com/auth/login
+```
+Implemented:
 
-## Learn More
+- Admin login page using MUI
+- Authentication via DummyJSON API
+- Token stored in Zustand (optionally persisted in localStorage)
+- Protected dashboard routes
+- Automatic redirect after login
+- Unauthorized users blocked from dashboard access
 
-To learn more about Next.js, take a look at the following resources:
+##  2. Users Module
+##  Users List Page
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+APIs
+```
+GET https://dummyjson.com/users?limit=10&skip=0
+GET https://dummyjson.com/users/search?q=...
+```
+Features:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Responsive MUI table
+- Server-side pagination using limit & skip
+- Search functionality
+- Displays:
+Name
+Email
+Gender
+Phone
+Company
 
-## Deploy on Vercel
+Client-side caching via Zustand
+##  Single User Page
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+API
+```
+GET https://dummyjson.com/users/{id}
+```
+Features:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Complete user details
+- Organized MUI layout
+- Back navigation to users list
+
+##  3. Products Module
+##  Products List Page
+
+APIs
+```
+GET https://dummyjson.com/products?limit=10&skip=0
+GET https://dummyjson.com/products/search?q=...
+GET https://dummyjson.com/products/category/{category}
+```
+Features:
+
+- Responsive MUI grid layout
+- Pagination
+- Search bar
+- Category dropdown filter
+
+Displays:
+- Product image
+- Title
+- Price
+- Category
+- Rating
+- 
+## Single Product Page
+
+API
+```
+GET https://dummyjson.com/products/{id}
+```
+Features:
+- Product image carousel
+- Description
+- Product specifications
+- Back navigation
+
+## State Management – Zustand
+
+### Zustand manages:
+
+- Authentication state
+- Users list & single user
+- Products list & single product
+- Loading & error states
+- Cached responses
+
+### Why Zustand?
+
+- Lightweight 
+- Minimal boilerplate
+- Built-in async support
+- Cleaner than Redux for small–medium apps
+
+No reducers/actions complexity
+
+Easy global state access
+### Performance Optimization
+Implemented:
+
+- API-side pagination (prevents large data loads)
+- React.memo for reusable components
+- useCallback for event handlers
+- useMemo for derived data
+- Zustand caching to avoid repeat API calls
+
+### Client-Side Caching Strategy
+
+- List responses stored in Zustand store
+- Data reused if already fetched
+- Reduces:
+- Network calls
+- Load time
+- Server dependency
+- Improves perceived performance
+
+### UI / UX Implementation
+
+- Entire UI built using Material UI
+- Fully responsive:
+- Login page
+- Users page
+- Products page
+- Detail pages
+- Clean layout
+- Proper spacing & alignment
+- Mobile-friendly grid system
+
+Folder Structure
+/app
+  /login
+  /dashboard
+  /users
+  /products
+
+/components
+  /common
+  /users
+  /products
+
+/store
+  authStore.js
+  userStore.js
+  productStore.js
+
+/services
+  api.js
+
+/utils
+  helpers.js
+### Environment Variables
+
+Create .env.local
+
+NEXTAUTH_SECRET=your_secret_key
+NEXTAUTH_URL=http://localhost:3000
+ Installation
+
+Clone repository:
+
+git clone <your-repo-link>
+cd project-name
+
+Install dependencies:
+
+npm install
+ Run Development Server
+npm run dev
+
+Visit:
+```
+http://localhost:3000
+```
+## Route Protection
+
+- Dashboard routes are wrapped with authentication check.
+- Unauthenticated users are redirected to /login.
+- Token validation handled via NextAuth + Zustand.
+
+### Functional Checklist
+- Login	
+- Protected Routes	
+- Pagination	
+- Search	
+- User Detail Page	
+- Product Detail Page	
+- Zustand State	
+- Async API Handling	
+- Responsive UI	
+- Performance Optimization	
+
+### Folder Structure
+```
+/app
+  /login
+  /dashboard
+  /users
+  /products
+
+/components
+  /common
+  /users
+  /products
+
+/store
+  authStore.js
+  userStore.js
+  productStore.js
+
+/services
+  api.js
+
+/utils
+  helpers.js
+```
+### Environment Variables
+
+Create .env.local
+```
+NEXTAUTH_SECRET=your_secret_key
+NEXTAUTH_URL=http://localhost:3000
+```
+
+### Installation
+
+Clone repository:
+```
+git clone <your-repo-link>
+cd project-name
+```
+Install dependencies:
+```
+npm install
+```
+### Run Development Server
+```
+npm run dev
+```
+Visit:
+```
+http://localhost:3000
+```
+### Route Protection
+
+- Dashboard routes are wrapped with authentication check.
+- Unauthenticated users are redirected to /login.
+- Token validation handled via NextAuth + Zustand.
